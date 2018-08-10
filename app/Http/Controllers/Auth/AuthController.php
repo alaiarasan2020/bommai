@@ -52,7 +52,8 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-        ]);
+            'mobile' => 'required|regex:/^[6-9][0-9]{9}$/|unique:users',
+        ],['mobile.unique'=>'Mobile Number is already registered']);
     }
 
     /**
@@ -63,10 +64,12 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+ 
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'mobile' => $data['mobile'],
         ]);
     }
 }
