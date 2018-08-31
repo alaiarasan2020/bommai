@@ -39,7 +39,7 @@ Route::group(['middleware' => 'web'], function () {
   
     Route::get('/','HomeController@index');
   
-    
+    Route::get('/testmail','testcontroller@index');
 
 
 });

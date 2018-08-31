@@ -29,14 +29,23 @@ class AccountController extends Controller
   public function addressadd(Request $request)
   {
     $this->validate($request,[
-        'addr1' => 'required',
-        'addr2' => 'required',
-        'city'  => 'required',
-        'district' => 'required',
-        'pin' => 'required',
-        'mobno' => 'required',
-        'addrname' => 'required',
+        'addr1' => 'required|regex:/^[a-zA-Z0-9][a-zA-z0-9 ]+$/|max:255',
+        'addr2' => 'required|regex:/^[a-zA-Z0-9][a-zA-z0-9 ]+$/|max:255',
+        'addr3' => 'regex:/^[a-zA-Z0-9][a-zA-z0-9 ]+$/|max:255',
+        'addr4' => 'regex:/^[a-zA-Z0-9][a-zA-z0-9 ]+$/|max:255',
+        'city'  => 'required|regex:/^[a-zA-Z][a-zA-z ]+$/|max:90',
+        'district' => 'required|regex:/^[a-zA-Z][a-zA-z ]+$/|max:90',
+        'pin' => 'required|regex:/^[0-9]{6}$/',
+        'mobno' => 'required|regex:/^[6-9][0-9]{9}$/',
+        'addrname' => 'required|regex:/^[a-zA-Z0-9][a-zA-z0-9 ]+$/|max:255',
     ]);
+    useraddr::create(['user_id'=>Auth::id(),'addr_line1'=>$request['addr1'],
+                     'addr_line2'=>$request['addr2'],'addr_line3'=>$request['addr3'],
+                     'addr_line4'=>$request['addr4'],'city'=>$request['city'],
+                     'district'=>$request['district'],'pin'=>$request['pin'],
+                     'mob_no'=>$request['mobno'],'addr_name'=>$request['addrname']
+                      
+                     ]);
     return redirect()->action("AccountController@addressindex");
   }
   public function orderindex()
